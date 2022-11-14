@@ -1,0 +1,36 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.box{
+    border: 1px solid #000;
+    background-color: #ccc;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    position: relative;
+    transition: 0.5s all;
+    
+}
+.box2{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    width: 28px;
+    height: 28px;
+    background-color: aqua;
+    transition: 0.5s all;
+}
+.box2:active{
+    left: 30px;
+}
+.box:active{
+    background-color: red;
+}
