@@ -1,0 +1,57 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(4, 255, 0);
+}
+body p::before{
+    content: " xxl (extra extra large) => 1400px"
+}
+@media only screen and (max-width:1399px){
+    body{
+        background-color: blue;
+    }
+    body p::before{
+
+        content: "xl (extra large) => 1200px"
+    }
+}
+@media only screen and (max-width:1199px){
+    body{
+        background-color: rgb(0, 255, 221);
+    }
+    body p::before{
+
+        content: "lg (large) => 992px"
+    }
+}
+@media only screen and (max-width:991px){
+    body{
+        background-color: rgb(255, 174, 0);
+    }
+    body p::before{
+
+        content: "md (medium) => 768px"
+    }
+}
+@media only screen and (max-width:767px){
+    body{
+        background-color: rgb(255, 0, 200);
+    }
+    body p::before{
+
+        content: "sm  (small) => 576px"
+    }
+}
+@media only screen and (max-width:575px){
+    body{
+        background-color: rgb(255, 0, 0);
+    }
+    body p::before{ 
+        content: "s ( extra small ) < 576px"
+    }
+}
