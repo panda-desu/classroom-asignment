@@ -1,1 +1,3 @@
-green team Sed-Erdene google classroom work
+# Sed-Erdene 
+
+## Team Green 
