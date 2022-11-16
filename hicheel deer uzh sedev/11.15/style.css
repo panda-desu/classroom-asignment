@@ -1,0 +1,25 @@
+body{
+    background-color: rgba(0, 255, 0, 1);
+}
+
+@media only screen and (max-width:1200px){
+    body{
+        background-color: rgba(231, 21, 32, 0.8);
+    }
+}
+@media only screen and (max-width:1024px){
+    body{
+        background-color:rgba(212, 255, 100, 0.6);
+    }
+}
+@media only screen and (max-width:768px){
+    body{
+        background-color:rgba(0, 0, 255, 0.4);
+    }
+}
+
+@media only screen and (max-width:480px){
+    body{
+        background-color: rgba(255, 0, 0, 0.2);
+    }
+}
