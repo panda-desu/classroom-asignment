@@ -1,0 +1,38 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: #ccc;
+}
+p{
+    margin: 0;
+}
+h1{
+    margin-bottom: 0;
+}
+.container{
+    width: 850px;
+    margin: 0 auto;
+}
+.card{
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+.card-text{
+    margin-left: 20px;
+}
+.card-btn>a{
+    display: flex;
+    justify-content: end;
+    padding: 30px;
+    color: green;
+}
+.opacity{
+    font-size: large;
+    opacity: 0.5;
+    margin-bottom: 20px;
+}
+.card-img>img{
+    width: 300px;
+}
