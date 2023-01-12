@@ -1,0 +1,36 @@
+body{
+    margin: 100px;
+    display: flex;
+        align-items: center;
+        justify-content: center;
+}
+.box {
+    
+    background-color: aqua;
+    width: 500px;
+    height: 1000px;
+}
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+}
+.mdkue{
+    border-top: 1px solid green;
+    padding: 30px;
+    transition: 2s all;
+}
+li{
+    font-size: 24px;
+    transition: 3s all;
+    cursor: pointer;
+}
+li:hover{
+    
+    font-size: 50px;
+}
+.mdkue:hover{
+    padding: 50px;
+        background-color: green;
+}

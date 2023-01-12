@@ -1,0 +1,81 @@
+¡<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: black;
+        flex-direction: column;
+      }
+      table {
+        border-collapse: collapse;
+        color: white;
+      }
+      td {
+        height: 20px;
+        width: 20px;
+        text-align: center;
+        line-height: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #666;
+      }
+      td:nth-child(3n):not(:last-child) {
+        border-right: 2px solid white;
+      }
+      tr:nth-child(3n):not(:last-child) td {
+        border-bottom: 2px solid white;
+      }
+      td.default {
+        color: white;
+      }
+      ul {
+        list-style-type: none;
+        margin: 20px 20px;
+        padding: 0;
+        display: flex;
+        gap: 10px;
+      }
+      li {
+        border: 1px solid #ddd;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        color: white;
+        cursor: pointer;
+      }
+      td:not(.default) {
+        cursor: pointer;
+      }
+      td.active {
+        background: rgba(83, 104, 149, 0.5);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+      td.error {
+        background-color: rgba(255, 104, 149, 0.5);
+      }
+    </style>
+    <table id="tableTarget"></table>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+    </ul>
+    <script src="sudoku.js"></script>
+  </body>
+</html>

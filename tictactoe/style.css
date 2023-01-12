@@ -1,0 +1,28 @@
+h1{
+    margin: 0;
+}
+.WinnerSlide{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.WinnerSlide.active{
+    background-color: #ddd;
+    transition: 0.3s all;
+}
+.xWin{
+    opacity: 0;
+    font-size: 48px;
+}
+.xWin.active{
+    opacity: 1;
+}
+.oWin{
+    font-size: 48px;
+    opacity: 0;
+}
+.oWin.active {
+    opacity: 1;
+}

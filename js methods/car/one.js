@@ -20,7 +20,7 @@ function searchByFirstDigit(brands, letter) {
 }
 const search = prompt('haih brandiin ehnii usgiin oruulna')
 console.log(searchByFirstDigit(carBrands, search))
-
+    - m
 function searchByFirstDigit(brands, country) {
     const result = [];
     for (let i = 0; i < brands.length; i++) {

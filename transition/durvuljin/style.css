@@ -1,0 +1,36 @@
+body{
+    display: flex;
+    flex-direction: column;
+   gap: 100px;
+   margin-left: 0;
+   margin-top: 100px;
+
+}
+.blue{
+    background-color: blue;
+    width: 500px;
+    height: 200px;
+    transition: 5.5s all;
+}
+.blue:active{
+    width: 10000px;
+}
+
+.green{
+    background-color: green;
+    width: 500px;
+    height: 200px;
+    transition: 5.5s all;
+}
+.green:hover{
+    width: 10000px;
+}
+.btn{
+    width: 200px;
+    height: 100px;
+    background-color: aliceblue;
+    transition: 1s;
+}
+.btn:hover{
+    background-color: green;
+}
