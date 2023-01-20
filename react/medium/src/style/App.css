@@ -66,7 +66,7 @@ body{
 .test{
     width: 280px;
 }
-.test>li{
+.test>.DropdownTopText{
     margin-top: 25px;
     margin: 20px;
     margin-bottom: 15px;
@@ -75,7 +75,7 @@ body{
 .dropdown-btn{
     width: 100%;
 }
-.test>li>h2{
+.test>.DropdownTopText>h2{
     font-size: 16px;
     margin-bottom: 10px;
 }
@@ -90,4 +90,51 @@ body{
     color: #000;
     background-color: #fff;
     border: 1px solid #000;
+}
+.dropdownText{
+    text-align: start;
+    color: #999;
+    margin: 0;
+}
+.dropdownText{
+    margin-left:  20px;
+    margin-top: 10px;
+}
+.dropdownText:last-child{
+    margin-bottom: 10px;
+}
+.dropdownText:hover{
+    color: #000;
+}
+.article-main-top-date{
+    font-size: 12px;
+}
+.article-top-link{
+    margin-right: 20px;
+}
+.article-main-text{
+    width: 85%;
+    font-size: 20px;
+}
+.article-main-img{
+    width: 100%;
+}
+.Article-Main-sd{
+    padding-right: 72px;
+}
+.article-main-center-text1{
+    font-size: 20px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    width: 80%;
+    color:#3E3D41;
+}
+.article-main-center-text{
+    font-size: 20px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    width: 86%;
+    color: #3E3D41;
 }

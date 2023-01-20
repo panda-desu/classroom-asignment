@@ -1,7 +1,7 @@
 import smallLogo from "../image/logo-small.svg";
 import { useState } from "react";
-import SearchIcon from "./search-icon.jsx";
-import WriteIcon from "./WriteIcon";
+import SearchIcon from "./icon/search-icon";
+import WriteIcon from "./icon/WriteIcon";
 import { MainButton } from "./MainButton";
 import { Dropdown } from "react-bootstrap";
 export const SlimNav = () => {
@@ -65,17 +65,22 @@ export const SlimNav = () => {
                     showDropdown && "show test  width-100%"
                   }`}
                 >
-                  <li>
+                  <li className="DropdownTopText">
                     <h2>Get Started on Medium</h2>
                   </li>
-                  <li className="">
+                  <li className="DropdownTopText">
                     <MainButton>Sign Up</MainButton>
                   </li>
-                  <li>
+                  <li className="DropdownTopText">
                     <MainButton variant="reverted">Sign In</MainButton>
                   </li>
                   <hr />
-                  <li></li>
+                  <li className="dropdownText d-flex justify-content-between me-4">
+                    <span>become a member</span>{" "}
+                    <span className="text-warning ">✦</span>
+                  </li>
+                  <li className="dropdownText">Apply to the Partner Program</li>
+                  <li className="dropdownText">Gift a membership</li>
                 </ul>
               </div>
             </div>
