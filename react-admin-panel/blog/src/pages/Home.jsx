@@ -1,5 +1,4 @@
-import { Card } from "react-bootstrap";
-
+import { Card } from "../components/Card";
 export const Home = () => {
   const articles = [];
   return (
