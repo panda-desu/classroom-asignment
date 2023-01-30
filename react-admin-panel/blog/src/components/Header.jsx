@@ -1,15 +1,20 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
+import axios from "axios";
 export const Header = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch("https://demo-api-one.vercel.app/api/categories")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data.body);
-      });
+    axios
+      .get("http://localhost:8000/categories")
+      .then((res) => setCategories(res.data));
+
+    // fetch("https://demo-api-one.vercel.app/api/categories")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setCategories(data.body);
+    //   });
   }, []);
 
   return (

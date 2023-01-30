@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,29 +14,44 @@ export default function Signin() {
 
   const submitSingIn = () => {
     let status = 200;
-    fetch("https://demo-api-one.vercel.app/api/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    })
+    axios
+      .post("https://demo-api-one.vercel.app/api/signin", {
+        email,
+        password,
+      })
       .then((res) => {
-        status = res.status;
-        return res.json();
+        toast.success(res.data.message, TOAST_CONFIG);
+        localStorage.setItem("token", res.data.body);
+        navigate("/signin/success");
       })
-      .then((data) => {
-        if (status !== 200) {
-          toast.error(data.message, TOAST_CONFIG);
-        } else {
-          toast.success(data.message, TOAST_CONFIG);
-          localStorage.setItem("token", data.body);
-          navigate("/signin/success");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        const errorMsg = e.response.data.message || "Алдаа гарлаа";
+        toast.error(errorMsg, TOAST_CONFIG);
       });
+
+    // fetch("https://demo-api-one.vercel.app/api/signin", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ email, password }),
+    // })
+    //   .then((res) => {
+    //     status = res.status;
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     if (status !== 200) {
+    //       toast.error(data.message, TOAST_CONFIG);
+    //     } else {
+    //       toast.success(data.message, TOAST_CONFIG);
+    //       localStorage.setItem("token", data.body);
+    //       navigate("/signin/success");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   return (

@@ -1,3 +1,0 @@
-# Sed-Erdene 
-
-## Team Green 

@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function CategoryEdit({ afterEdit, category }) {
   const [name, setName] = useState(category?.name);
@@ -10,29 +11,11 @@ export default function CategoryEdit({ afterEdit, category }) {
   const navigate = useNavigate();
 
   const submit = () => {
-    let statusCode;
-    fetch("https://demo-api-one.vercel.app/api/categories", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({ id: category?.id, name, description }),
-    })
+    axios
+      .patch(`http://localhost:8000/categories/${category.id}`, { name })
       .then((res) => {
-        statusCode = res.status;
-        return res.json();
-      })
-      .then((data) => {
-        if (statusCode === 200) {
-          toast.success("Амжилттай нэмэгдлээ");
-          afterEdit(data.body);
-        } else {
-          if (statusCode === 403 || statusCode === 401) {
-            navigate("/signout");
-          }
-          toast.error(data.message);
-        }
+        toast.success("Амжилттай шинэчэллээ");
+        afterEdit(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -57,7 +40,7 @@ export default function CategoryEdit({ afterEdit, category }) {
           placeholder="Name of the category..."
         />
       </Form.Group>
-      <Form.Group className="mb-3">
+      {/* <Form.Group className="mb-3">
         <Form.Label>Description</Form.Label>
         <Form.Control
           value={description}
@@ -67,7 +50,7 @@ export default function CategoryEdit({ afterEdit, category }) {
           as="textarea"
           rows={3}
         />
-      </Form.Group>
+      </Form.Group> */}
       <Button variant="primary" type="submit">
         Submit
       </Button>

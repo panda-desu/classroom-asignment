@@ -8,6 +8,7 @@ import DynamicModal from "../components/utils/DynamicModal";
 import CategoryCreate from "../components/Categories/CategoryCreate";
 import { data } from "./Home";
 import CategoryEdit from "../components/Categories/CategoryEdit";
+import axios from "axios";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -15,10 +16,10 @@ export default function Categories() {
   const [modalContent, setModalContent] = useState(<></>);
 
   useEffect(() => {
-    fetch("https://demo-api-one.vercel.app/api/categories")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data.body);
+    axios
+      .get("http://localhost:8000/categories")
+      .then((res) => {
+        setCategories(res.data);
       })
       .catch((err) => {
         console.log(err);

@@ -15,27 +15,27 @@ import { ToastContainer } from 'react-toastify';
 import { SignOut } from './pages/Signout';
 
 export default function App() {
-  const [me, setMe] = useState(undefined);
-  const [show, setShow] = useState(false);
   const [menuShow, setMenuShow] = useState(false);
+  // const [me, setMe] = useState(undefined);
+  // const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    const myData = localStorage.getItem('me');
-    if (myData !== 'undefined') {
-      setMe(JSON.parse(myData));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const myData = localStorage.getItem('me');
+  //   if (myData !== 'undefined') {
+  //     setMe(JSON.parse(myData));
+  //   }
+  // }, []);
 
-  if (!me) {
-    return (
-      <Routes>
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signin/success" element={<SigninSuccess setMe={setMe} />} />
-        <Route path="/signup" element={<Singup />} />
-        <Route path="*" element={<SignInError />} />
-      </Routes>
-    );
-  }
+  // if (!me) {
+  //   return (
+  //     <Routes>
+  //       <Route path="/signin" element={<Signin />} />
+  //       <Route path="/signin/success" element={<SigninSuccess setMe={setMe} />} />
+  //       <Route path="/signup" element={<Singup />} />
+  //       <Route path="*" element={<SignInError />} />
+  //     </Routes>
+  //   );
+  // }
   return (
     <>
       <Navbar onToggle={() => setMenuShow(!menuShow)} />
@@ -48,7 +48,7 @@ export default function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/articles" element={<Articles />} />
-            <Route path='/signout' element={<SignOut setMe={setMe} />} />
+            {/* <Route path='/signout' element={<SignOut setMe={setMe} />} /> */}
           </Routes>
         </div>
       </div>
