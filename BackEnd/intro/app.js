@@ -4,7 +4,9 @@ const cors = require('cors');
 
 const fs = require('fs');
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { resolvePtr } = require("dns");
+const { response } = require("express");
 
 const jsonParser = bodyParser.json();
 
@@ -125,19 +127,109 @@ app.get('/products', (req, res) => {
     page = Number(page) || 1
     let start, end
     start = (page - 1) * pageSize
-    end = start + pageSize
+    end = start * pageSize
 
-    const items = products.slice(start, end)
+    const newProducts = products.filter((product) => {
+        let matching = true
+        if (q) {
+            matching = product.name.toLowerCase().includes(q.toLowerCase())
+        }
+        return matching
+    })
+
+    const items = newProducts.slice(start, end)
 
     res.json({
-        total: products.length,
-        totalPages: Math.ceil(products.length / pageSize),
+        total: newProducts.length,
+        totalPages: Math.ceil(newProducts.length / pageSize),
         page,
         pageSize,
         items
 
     })
 })
+
+let menuPosition = JSON.parse(fs.readFileSync('menuPositions.json', 'utf-8'))
+
+let nextPosId = menuPosition.length + 1
+
+app.get(`/menu-positions`, (req, res) => {
+    res.json(menuPosition)
+})
+
+app.get('/menu-positions/:id', (request, response) => {
+    const { id } = request.params;
+    let position = null
+    for (const row of menuPosition) {
+        if (id == row.id) {
+            position = row
+            break
+        }
+    }
+    response.json(position)
+})
+
+app.post('/menu-positions', jsonParser, (req, res) => {
+    const { name, alias } = req.body
+    const newPosition = { id: nextPosId++, name, alias }
+    menuPosition.push(newPosition)
+    fs.writeFileSync('newPosition.json', JSON.stringify(menuPosition))
+    res.json(newPosition)
+})
+
+app.delete('/menu-positions/:id', (req, res) => {
+    const { id } = req.params
+    menuPosition = menuPosition.filter((row) => row.id !== Number(id))
+    fs.writeFileSync('menuPosition.json', JSON.stringify(menuPosition))
+    res.json(id)
+})
+
+let menus = JSON.parse(fs.readFileSync('menu.json', 'utf-8'))
+let nextNenuId = menus.length + 1
+
+app.get('/menus', (req, res) => {
+    const { positionId } = req.query
+    if (!positionId) return res.statusCode(400).json('PositionId required!')
+
+    const result = menus.filter((menu) => {
+        return menu.positionId === Number(positionId)
+    })
+    return res.json(result)
+})
+pp.get("/menus/:positionAlias", (req, res) => {
+    const { positionAlias } = req.params;
+    let position = null;
+
+    for (const row of menuPositions) {
+        if (positionAlias == row.alias) {
+            position = row;
+            break;
+        }
+    }
+
+    if (!position) return res.status(400).json("Position not found");
+
+    const result = menus.filter((menu) => {
+        return menu.positionId === position.id;
+    });
+    return res.json(result);
+});
+
+app.post("/menus", jsonParser, (req, res) => {
+    const { name, link, newTab, positionId, ordering } = req.body;
+    const newMenu = { id: nextMenuId, name, link, newTab, positionId, ordering };
+    menus = [...menus, newMenu];
+    fs.writeFileSync("menus.json", JSON.stringify(menus));
+    return res.json(newMenu);
+});
+
+app.delete("/menus/:id", (req, res) => {
+    const { id } = req.params;
+    menus = menus.filter((row) => row.id !== Number(id));
+    fs.writeFileSync("menus.json", JSON.stringify(menus));
+    res.json(id);
+});
+
 
 app.listen(port, () => {
     console.log('HelloItsMePanda:' + port)

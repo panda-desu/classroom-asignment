@@ -4,36 +4,73 @@ import dayjs from "dayjs";
 
 import relateTime from "dayjs/plugin/relativeTime";
 import { currencyFormatter } from "../utils/currencyFormatter";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 dayjs.extend(relateTime);
 export default function Product() {
+  const [IsReady, setIsReady] = useState(false);
+
   const [page, setPage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [LocationQuery, setLocationQuery] = useState("");
+
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:8000/products?pageSize=${pageSize}&page=${currentPage}`
-      )
-      .then((res) => {
-        setPage(res.data);
-      });
-  }, [currentPage, pageSize]);
+    const newQuery = new URLSearchParams();
+    newQuery.set("pageSize", pageSize);
+    newQuery.set("page", currentPage);
+    if (searchQuery !== "") {
+      newQuery.set(`q`, searchQuery);
+    }
+    setLocationQuery(newQuery.toString());
+  }, [pageSize, currentPage, searchQuery]);
+
+  useEffect(() => {
+    navigate(`/products?${LocationQuery}`);
+  }, [LocationQuery]);
+
+  useEffect(() => {
+    if (IsReady) {
+      getResult();
+    }
+  }, [IsReady]);
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.has("page")) {
       setCurrentPage(Number(searchParams.get("page")));
     }
-    if (searchParams.has("page")) {
+    if (searchParams.has("pageSize")) {
       setPageSize(Number(searchParams.get("pageSize")));
     }
+    if (searchParams.has("q")) {
+      setSearchQuery(searchParams.get(`q`));
+    }
+    if (IsReady) {
+      getResult();
+    } else {
+      setIsReady(true);
+    }
   }, [location]);
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
+
+  const getResult = () => {
+    const urlParams = new URLSearchParams();
+    urlParams.set(`pageSize`, pageSize);
+    urlParams.set(`page`, currentPage);
+    if (searchQuery !== "") {
+      urlParams.set(`q`, searchQuery);
+    }
+    axios
+      .get(`http://localhost:8000/products?${urlParams.toString()}`)
+      .then((res) => {
+        setPage(res.data);
+      });
+  };
 
   if (!page) {
     return (
@@ -53,7 +90,7 @@ export default function Product() {
       </li>
     );
     // front trible dots
-    if (page.page - 3 > 0) {
+    if (page.page - 2 > 0) {
       result.push(
         <li className={`page-item`}>
           <span className="page-link">...</span>
@@ -66,7 +103,7 @@ export default function Product() {
           {currentPage === 2 ? (
             <></>
           ) : (
-            <li className={`page-item active`}>
+            <li className={`page-item`}>
               <a href="#" className="page-link">
                 {page.page - 1}
               </a>
@@ -74,7 +111,7 @@ export default function Product() {
           )}
           <li className={`page-item active`}>
             <a href="#" className="page-link">
-              {page.page}
+              {page.page - 1}
             </a>
           </li>
           {""}
@@ -84,7 +121,7 @@ export default function Product() {
             <li className={`page-item`}>
               <a className="page-link" href="#">
                 {page.page + 1}
-              </a>{" "}
+              </a>
             </li>
           )}
         </>
@@ -106,17 +143,7 @@ export default function Product() {
       );
     }
 
-    if (page.page === 1 && page.page === 2) {
-      result.push(
-        <li className={`page-item active`}>
-          <a href="#" className="page-link">
-            2
-          </a>
-        </li>
-      );
-    }
-
-    if (page.totalPages - 3 >= page.page) {
+    if (page.totalPages - 2 >= page.page) {
       // back trible dots
       result.push(
         <li className={`page-item`}>
@@ -139,6 +166,10 @@ export default function Product() {
     <main>
       <div className="container">
         <div className="d-flex justify-content-end mb-4">
+          <label htmlFor="">
+            Нэрээр хайх
+            <input type="text" className="form-control" />
+          </label>
           <label>
             Хуудаслалт &nbsp;
             <select
