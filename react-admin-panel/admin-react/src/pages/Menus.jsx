@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
-import CategoryList from "../components/Categories/CategoryList";
 import Heading from "../components/Heading";
 import { toast } from "react-toastify";
 import DynamicModal from "../components/utils/DynamicModal";
-import CategoryCreate from "../components/Categories/CategoryCreate";
 import CategoryEdit from "../components/Categories/CategoryEdit";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
-import MenuPositionCreate from "../components/Menu/Positions/PositionCreate";
+import { useParams } from "react-router-dom";
+import MenuList from "../components/Menu/MenuList";
+import MenuCreate from "../components/Menu/MenuCreate";
+
 export default function Menus() {
   const [position, setPosition] = useState(null);
-  const [menus, setMenus] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [menus, setMenus] = useState([]);
   const [modalContent, setModalContent] = useState(<></>);
-  const { id } = useSearchParams();
+  const { id } = useParams();
 
   useEffect(() => {
+    axios.get("http://localhost:8000/menu-positions/" + id).then((res) => {
+      setPosition(res.data);
+    });
     axios
-      .get("http://localhost:8000/menu-positions")
+      .get("http://localhost:8000/menus?positionId=" + id)
       .then((res) => {
-        setPosition(res.data);
+        setMenus(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -31,29 +34,29 @@ export default function Menus() {
     setModalContent(<></>);
     setModalShow(false);
   };
-  const afterSubmit = (category) => {
+  const afterSubmit = (menu) => {
     modalClose();
-    // setCategories([...categories, category]);
+    setMenus([...menus, menu]);
   };
 
   const showCreateModal = () => {
-    setModalContent(<MenuPositionCreate afterSubmit={afterSubmit} />);
+    setModalContent(<MenuCreate afterSubmit={afterSubmit} positionId={id} />);
     setModalShow(true);
   };
 
   const afterEdit = (category) => {
     modalClose();
-    // let newCategories = categories.map((cat) => {
-    //   if (cat.id === category.id) {
-    //     return category;
-    //   }
-    //   return cat;
-    // });
-    // setCategories(newCategories);
+    let newMenus = menus.map((cat) => {
+      if (cat.id === category.id) {
+        return category;
+      }
+      return cat;
+    });
+    setMenus(newMenus);
   };
 
-  const showEditModal = (category) => {
-    setModalContent(<CategoryEdit category={category} afterEdit={afterEdit} />);
+  const showEditModal = (menu) => {
+    setModalContent(<CategoryEdit category={menu} afterEdit={afterEdit} />);
     setModalShow(true);
   };
 
@@ -64,13 +67,13 @@ export default function Menus() {
           title={`"${position?.name}" - Menus`}
           handleShow={showCreateModal}
         />
-        <CategoryList items={menus} onEdit={showEditModal} />
+        <MenuList items={menus} onEdit={showEditModal} />
       </div>
       <DynamicModal
         content={modalContent}
         show={modalShow}
         handleClose={modalClose}
-        title="Create menus"
+        title="Edit menu"
       />
     </>
   );

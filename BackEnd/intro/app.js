@@ -4,63 +4,27 @@ const cors = require('cors');
 
 const fs = require('fs');
 
+const app = express();
+const port = 8000;
+
+
 const bodyParser = require('body-parser');
+const { match } = require("assert");
 const { resolvePtr } = require("dns");
 const { response } = require("express");
 
 const jsonParser = bodyParser.json();
 
-const app = express();
+
 app.use(cors());
 
-const port = 8000;
 
-let categories = JSON.parse(fs.readFileSync("./categoryData.json", "utf-8"))
+let categories = JSON.parse(fs.readFileSync("categorydata.json", "utf-8"))
 
 const updateCategoriesFile = () => {
-    fs.writeFileSync('categoryData.json', JSON.stringify(categories))
+    fs.writeFileSync('categorydata.json', JSON.stringify(categories))
 }
 
-
-const article = [
-    {
-        id: 1,
-        name: "Kiki",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/1200px-Grosser_Panda.JPG",
-        text: "123123123",
-    },
-    {
-        id: 2,
-        name: "Koko",
-        imageUrl: "https://media.istockphoto.com/id/1195743934/vector/cute-panda-character-vector-design.jpg?s=612x612&w=0&k=20&c=J3ht-bKADmsXvF6gFIleRtfJ6NGhXnfIsrwlsUF8w80=",
-        text: "ausfhasid",
-    },
-    {
-        id: 3,
-        name: "Sdoko",
-        imageUrl: "https://i.natgeofe.com/k/75ac774d-e6c7-44fa-b787-d0e20742f797/giant-panda-eating_3x2.jpg",
-        text: "iohpdfshijbvcjipoxbvcjioxbvjiopxfjiopxfgijofs",
-    },
-    {
-        id: 4,
-        name: "KAKA",
-        imageUrl: "https://img.freepik.com/free-vector/cute-panda-sipping-boba-milk-tea-cartoon-icon-illustration-animal-food-icon-concept-isolated-flat-cartoon-style_138676-2173.jpg?w=2000",
-        text: "1231231",
-    },
-    {
-        id: 5,
-        name: "KAKasas",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/7/77/Cosmic_Background_Imager.jpeg",
-        text: "123123sfbvasdhivjsdiopc1",
-    },
-    {
-        id: 5,
-        name: "KAKasas",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/7/77/Cosmic_Background_Imager.jpeg",
-        text: "123123sfbvasdhivjsdiopc1",
-    }
-
-]
 let nextCatId = categories.length
 
 app.get('/article', (req, res) => {
@@ -92,7 +56,7 @@ app.get('/categories/:id', (request, response) => {
 })
 app.delete('/categories/:id', (req, res) => {
     const { id } = req.params
-    categories = categories.filter((row) => row.id != id)
+    categories = categories.filter((row) => row.id !== Number(id))
     updateCategoriesFile()
     res.json(id)
 })
@@ -101,6 +65,7 @@ app.post('/categories', jsonParser, (req, res) => {
     const { name } = req.body
     const newCategory = { id: nextCatId++, name }
     categories.push(newCategory)
+    updateCategoriesFile()
     res.json(newCategory)
 })
 app.patch('/categories/:id', jsonParser, (req, res) => {
@@ -115,6 +80,7 @@ app.patch('/categories/:id', jsonParser, (req, res) => {
         }
         return cat
     })
+    updateCategoriesFile()
     res.json(updatedCat)
 
 })
@@ -149,18 +115,18 @@ app.get('/products', (req, res) => {
     })
 })
 
-let menuPosition = JSON.parse(fs.readFileSync('menuPositions.json', 'utf-8'))
+let menuPositions = JSON.parse(fs.readFileSync('menuPositions.json', 'utf-8'))
 
-let nextPosId = menuPosition.length + 1
+let nextPosId = menuPositions.length + 1
 
 app.get(`/menu-positions`, (req, res) => {
-    res.json(menuPosition)
+    res.json(menuPositions)
 })
 
 app.get('/menu-positions/:id', (request, response) => {
     const { id } = request.params;
     let position = null
-    for (const row of menuPosition) {
+    for (const row of menuPositions) {
         if (id == row.id) {
             position = row
             break
@@ -172,20 +138,20 @@ app.get('/menu-positions/:id', (request, response) => {
 app.post('/menu-positions', jsonParser, (req, res) => {
     const { name, alias } = req.body
     const newPosition = { id: nextPosId++, name, alias }
-    menuPosition.push(newPosition)
-    fs.writeFileSync('newPosition.json', JSON.stringify(menuPosition))
+    menuPositions.push(newPosition)
+    fs.writeFileSync('menuPositions.json', JSON.stringify(menuPositions))
     res.json(newPosition)
 })
 
 app.delete('/menu-positions/:id', (req, res) => {
     const { id } = req.params
-    menuPosition = menuPosition.filter((row) => row.id !== Number(id))
-    fs.writeFileSync('menuPosition.json', JSON.stringify(menuPosition))
+    menuPositions = menuPositions.filter((row) => row.id !== Number(id))
+    fs.writeFileSync('menuPositions.json', JSON.stringify(menuPositions))
     res.json(id)
 })
 
-let menus = JSON.parse(fs.readFileSync('menu.json', 'utf-8'))
-let nextNenuId = menus.length + 1
+let menus = JSON.parse(fs.readFileSync('menus.json', 'utf-8'))
+let nextMenuId = menus.length + 1
 
 app.get('/menus', (req, res) => {
     const { positionId } = req.query
@@ -196,7 +162,7 @@ app.get('/menus', (req, res) => {
     })
     return res.json(result)
 })
-pp.get("/menus/:positionAlias", (req, res) => {
+app.get("/menus/:positionAlias", (req, res) => {
     const { positionAlias } = req.params;
     let position = null;
 
@@ -234,3 +200,4 @@ app.delete("/menus/:id", (req, res) => {
 app.listen(port, () => {
     console.log('HelloItsMePanda:' + port)
 })
+const rand = Math.floor(Math.random() * 6) + 1;
