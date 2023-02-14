@@ -1,11 +1,28 @@
-import { Navbar } from "./utils/Navbar"
-import Box from "@mui/material/Box";
+import { Box, Button, Dialog, } from "@mui/material";
+import ResponsiveDialog from "./contexts/Dialog";
+import { Layout } from "./components/Layout";
+import { useToast } from "./hooks"
 
 function App() {
+
+  const showToast = useToast()
+
+
   return (
-    <Box>
-      <Navbar />
-    </Box>
+    <Layout>
+      <Box sx={{ p: 5 }}>
+        <ResponsiveDialog />
+        <Button
+          variant="contained"
+          onClick={() => {
+            showToast("hello toast")
+          }}
+        >
+          Toggle toast
+        </Button>
+
+      </Box>
+    </Layout>
   );
 }
 
