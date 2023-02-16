@@ -7,12 +7,12 @@ dotenv.config()
 const app = express();
 const port = 8000;
 
-const openaiPackage = require("openai")
+// const openaiPackage = require("openai")
 
-const configuration = new openaiPackage.Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new openaiPackage.OpenAIApi(configuration);
+// const configuration = new openaiPackage.Configuration({
+// apiKey: process.env.OPENAI_API_KEY,
+// });
+// const openai = new openaiPackage.OpenAIApi(configuration);
 
 
 const bodyParser = require('body-parser');
@@ -204,21 +204,19 @@ app.delete("/menus/:id", (req, res) => {
     res.json(id);
 });
 
-app.get("/generate", async (req, res) => {
-    const { prompt } = req.query
-    const response = await openai.createImage({
-        prompt: prompt,
-        n: 1,
-        size: "256x256",
-    });
-    const image_url = response.data.data[0].url;
-    res.json({ data: image_url })
-})
+// app.get("/generate", async (req, res) => {
+//     const { prompt } = req.query
+//     const response = await openai.createImage({
+//         prompt: prompt,
+//         n: 1,
+//         size: "256x256",
+//     });
+//     const image_url = response.data.data[0].url;
+//     res.json({ data: image_url })
+// })
 
 
 app.listen(port, async () => {
     console.log('HelloItsMePanda:' + port);
-    const response = await openai.listEngines();
-    console.log(response);
+    // console.log(response);
 })
-const rand = Math.floor(Math.random() * 6) + 1;

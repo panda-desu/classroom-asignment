@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ToastProvider } from './contexts';
-
+import { BrowserRouter } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ToastProvider>
-    <App />
-  </ToastProvider>
+  <BrowserRouter>
+    <ToastProvider>
+      <App />
+    </ToastProvider>
+  </BrowserRouter>
 );
