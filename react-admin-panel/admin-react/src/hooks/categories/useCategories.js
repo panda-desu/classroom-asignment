@@ -9,5 +9,5 @@ export const useCategories = () => {
             setCategories(res.data);
         });
     }, []);
-    return [categories, setCategories];
+    return [categories];
 };

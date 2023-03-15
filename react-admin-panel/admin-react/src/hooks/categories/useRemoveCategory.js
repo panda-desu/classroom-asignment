@@ -3,7 +3,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export const useRemoveCategory = (id) => {
+
     const [deleted, setDeleted] = useState(false);
+
     const deleteItem = () => {
         axios
             .delete("http://localhost:8000/categories/" + id)

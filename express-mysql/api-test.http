@@ -1,0 +1,74 @@
+GET http://localhost:8000/users
+
+###
+POST http://localhost:8000/users
+content-type: application/json
+
+{
+    "firstName":"sedsda",
+    "lastName": "odasdasdds",
+    "birthDate" : "2004-08-12",
+    "email": "sedksssa05@gmail.com",
+    "phone": "96658123",
+    "password": "",
+    "imageUrl": ""
+}
+
+###
+GET http://localhost:8000/users/ydO6ZnHzi3-91nP1iGIC6
+
+
+###
+DELETE http://localhost:8000/users/ydO6ZnHzi3-91nP1iGIC6
+
+###
+
+PATCH http://localhost:8000/users/Ri_uwnigGY6qPvAFfsQKZ
+Content-Type: application/json
+
+{
+    "firstName":"sed",
+    "lastName":"sodoo",
+    "birthDate":"2003-05-12",
+    "email":"sed05@gmail.com",
+    "phone":"99679427",
+    "password":"",
+    "imageUrl":""
+    
+}
+
+
+# category
+
+###
+
+GET http://localhost:8000/categories
+
+###
+
+GET http://localhost:8000/categories/IRn7D4TognV_3PFxNjNlN
+
+###
+
+DELETE http://localhost:8000/categories/IRn7D4TognV_3PFxNjNlN
+
+###
+
+PATCH http://localhost:8000/categories/F49JLTJfd9qPBP3KOKOWm
+Content-Type: application/json
+
+{
+    "name":"all",
+    "productCount":"123",
+    "parent_id": "asdasd",
+    
+}
+
+###
+POST http://localhost:8000/categories
+content-type: application/json
+
+{
+    "name":"all",
+    "parent_id": null
+}

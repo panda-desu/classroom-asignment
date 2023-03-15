@@ -10,7 +10,7 @@ export default function CategoryCreate({ afterSubmit }) {
 
   const submit = () => {
     axios
-      .post("http://localhost:8000/categories", { name: nameRef.current.value })
+      .post("http://localhost:8000/categories", { name: name.current.value })
       .then((res) => {
         toast.success("Амжилттай нэмэгдлээ");
         afterSubmit(res.data);
@@ -33,7 +33,7 @@ export default function CategoryCreate({ afterSubmit }) {
         <Form.Control
           type="text"
           placeholder="Name of the category..."
-          ref={nameRef}
+          ref={name}
         />
       </Form.Group>
       <Button variant="primary" type="submit">

@@ -1,10 +1,10 @@
 import { SlPencil, SlTrash } from "react-icons/sl";
 import { useRemoveCategory } from "../../hooks/categories";
+import { useCrud } from "../../hooks/useCrud";
 
 const ListItem = ({ item, index, onEdit }) => {
-  const { deleteItem, deleted } = useRemoveCategory(item.id);
-
-  if (deleted) return <></>;
+  // const { deleteItem, deleted } = useRemoveCategory(item.id);
+  const { deleteItem } = useCrud("categories");
 
   return (
     <tr>
@@ -17,7 +17,12 @@ const ListItem = ({ item, index, onEdit }) => {
         >
           <SlPencil />
         </button>
-        <button className="btn btn-sm btn-outline-danger" onClick={deleteItem}>
+        <button
+          className="btn btn-sm btn-outline-danger"
+          onClick={() => {
+            deleteItem(item.id);
+          }}
+        >
           <SlTrash />
         </button>
       </td>
