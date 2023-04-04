@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let a = Number(prompt("100 aas baga duriin toogoo ugnu uu"));
+      if (a >= 100) {
+        console.log(" 100 aas baga gj hlezde :^");
+      } else {
+        let isPrime = true;
+        if (a == 2) {
+          isPrime = false;
+        }
+        let i = 2;
+        while (i < a) {
+          if (a % i === 0) {
+            isPrime = false;
+            break;
+          }
+          i++;
+        }
+        if (isPrime) {
+          console.log(a + "is prime");
+        } else {
+          console.log(a + "is not prime");
+        }
+      }
+    </script>
+  </body>
+</html>
