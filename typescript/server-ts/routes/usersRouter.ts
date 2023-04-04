@@ -4,7 +4,7 @@ import {
   createUser,
   findAllUsers,
   findUserById,
-} from "../controller/UsersController";
+} from "../controllers/usersController";
 
 const usersRouter = Router();
 
