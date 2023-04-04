@@ -1,8 +1,6 @@
-let n = Number(prompt(`duriin toogoo ugnu uu`))
-let i = 0;
-let sum = 0;
-while (i < n) {
-    i += i
-    sum = "" + i
+let n = parseInt(prompt("n тоог оруулна уу: "));
+let fibonacci = [1, 1];
+for (let i = 2; i < n; i++) {
+  fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
 }
-console.log(sum)
+console.log(fibonacci.join(" "));
