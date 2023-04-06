@@ -1,62 +1,20 @@
+import { MovieCard } from "@/components/movie/MovieCard";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-
-interface MovieAwards {
-  wins: number;
-  nominations: number;
-  text: string;
-}
-
-interface MovieIMD {
-  rating: number;
-  votes: number;
-  id: number;
-}
-
-interface MovieTomatoes {
-  viewer: {
-    rating: number;
-    numReviews: number;
-    meter: number;
-  };
-  lastUpdated: Date;
-}
-
-export interface IMovie {
-  _id: string;
-  poster?: string;
-  plot: string;
-  genres: string[];
-  runtime: number;
-  cast: string[];
-  num_mflix_comments: number;
-  title: string;
-  fullplot: string;
-  countries: string[];
-  released: Date;
-  directors: string[];
-  rated: string;
-  awards: MovieAwards;
-  lastupdated: Date;
-  year: number;
-  imdb: MovieIMD;
-  type: string;
-  tomatoes: MovieTomatoes;
-}
+import { IMovie } from "../interface/movie";
 
 export default function Home(): JSX.Element {
   const [movies, setMovies] = useState<IMovie[]>([]);
-  const placeHolder = "https://via.placeholder.com/160x230";
+  const [ordering, setOrdering] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
-    fetch("http://localhost:7070/api/movies?limit=12")
+    fetch(`http://localhost:7070/api/movies?limit=12&ordering=${ordering}`)
       .then((res) => res.json())
       .then((data) => {
         setMovies(data);
       });
-  }, []);
+  }, [ordering]);
 
   return (
     <>
@@ -69,26 +27,24 @@ export default function Home(): JSX.Element {
       <div className="bg-slate-100 min-h-screen">
         <div className="container mx-auto">
           <div className="bg-white">
+            <select
+              value={ordering}
+              onChange={(e): void => {
+                setOrdering(e.target.value);
+              }}
+              name="bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+              id=""
+            >
+              <option value="releasedAsc">Oldest</option>
+              <option value="releasedDesc">Newest</option>
+              <option value="imdbRatingDesc">Most Popular</option>
+              <option value="titleAsc">A-Z</option>
+              <option value="titleDesc">Z-A</option>
+            </select>
+            <input className="ml-5" type="text" placeholder="search" />
             <div className="p-4 grid grid-cols-6 gap-4">
               {movies.map((movie) => (
-                <div key={movie._id} className="group">
-                  <div className="aspect-[16/23] relative group">
-                    <Image
-                      src={movie.poster || placeHolder}
-                      alt={movie.title}
-                      width={160}
-                      height={230}
-                      className="w-full h-full object-cover rounded"
-                    />
-                    <div className="absolute inset-0 group-hover:bg-black/30 transition-all" />
-                  </div>
-                  <Link
-                    href={""}
-                    className="text-xs text-stone-800	group-hover:text-sky-300 transition-colors"
-                  >
-                    {movie.title}
-                  </Link>
-                </div>
+                <MovieCard movie={movie} key={movie._id} />
               ))}
             </div>
           </div>
