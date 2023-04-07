@@ -5,6 +5,11 @@ export const countAllMovies = async (req: Request, res: Response) => {
   res.json(await MovieModel.count({}));
 };
 
+export const findAllMovieIds = async (req: Request, res: Response) => {
+  const result = await MovieModel.find().select({ _id: 1 });
+  res.json(result.map((movieId) => movieId.id));
+};
+
 export const findAllMovies = async (req: Request, res: Response) => {
   const { limit = "10", skip = "0", ordering = "releasedAsc" } = req.query;
   let sort = "";

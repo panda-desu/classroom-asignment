@@ -1,9 +1,35 @@
 import { IMovie } from "@/interface/movie";
+import { GetStaticProps, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
-const Index: FC = () => {
-  const [movie, setMovie] = useState<IMovie | undefined>();
+export const getStaticPaths = async () => {
+  const response = await fetch("http://localhost:7070/api/movies/ids");
+  const data = await response.json();
+  const paths = await data.map((_id: string) => {
+    return {
+      paths: {
+        _id,
+      },
+    };
+  });
+  return {
+    paths,
+  };
+};
+
+export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
+  const response = await fetch(`http://localhost:7070/api/movies/${params.id}`);
+  const data = await response.json();
+  return { props: { data } };
+};
+
+interface Props {
+  data: IMovie | null;
+}
+
+const Index: FC<Props> = ({ data }) => {
+  const [movie, setMovie] = useState<IMovie | undefined>(data);
   const { query } = useRouter();
   const { _id } = query;
 
